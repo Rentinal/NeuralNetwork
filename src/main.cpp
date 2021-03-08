@@ -2,21 +2,41 @@
 //
 
 #include <iostream>
-#include <NumCpp/NumCpp.hpp>
+#include "utils.hpp"
+
+
+class denseLayer {
+private:
+    nc::NdArray<double> m_weights;
+    nc::NdArray<double> m_biases;
+public:
+    nc::NdArray<double> M_outputs;
+
+public:
+    denseLayer(const size_t& numInputs, const size_t& numNeurons) {
+        //Random values between -0.01 and 0.01
+        m_weights = 0.01 * nc::random::randN<double>({ numInputs, numNeurons });
+        m_biases = nc::zeros<double>({ 1, numNeurons });
+    }
+
+    ~denseLayer() = default;
+
+    void forward(const nc::NdArray<double>& inputs) {
+        M_outputs = utils::addVectorToEveryRow(inputs.dot(m_weights), m_biases);
+    }
+
+    void printOutput() const {
+        std::cout << "Outputs\n" << M_outputs << '\n';
+    }
+};
 
 int main()
 {
-    nc::NdArray<int> a = { {1,2,3}, {4,5,6}, {7,8,9}, {10,11,12} };
-    std::cout << a;
+    auto [X, y] = utils::spiral_data(100, 3);
+
+   denseLayer dense1(2, 3);
+
+   dense1.forward(X);
+
+   dense1.printOutput();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
