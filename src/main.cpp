@@ -5,6 +5,7 @@
 #include <math.h>
 #include "activationFunctions/activationSoftmax.hpp"
 #include "activationFunctions/activationReLU.hpp"
+#include "lossFunctions/categoricalLossEntropy.hpp"
 
 //Euler's number calculated -> double precision
 static const double E = std::exp(1.0);
@@ -38,8 +39,6 @@ public:
 	}
 };
 
-
-
 int main()
 {
 	//Create random dataset
@@ -54,7 +53,7 @@ int main()
 	//Create second Dense Layer with 3 inputs (Num outputs of first layer)
 	//and 3 outputs (Num of layers in dataset)
 	denseLayer dense2(3, 3);
-	
+
 	//Create Softmax Activation (used in output layer)
 	activationSoftmax activation2;
 
@@ -70,7 +69,11 @@ int main()
 	//Pass Output of second layer through second activation function
 	activation2.forward(dense2.output());
 
-	//Every Output has same confidence
-	std::cout << "Output\n" << activation2.output();
-
+	//Pass Output of second activation function through loss function
+	categoricalCrossEntropy lossFunction;
+	//Average loss
+	std::cout << lossFunction.calculate(activation2.output(), y);
+	
 }
+
+

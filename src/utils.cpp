@@ -8,10 +8,10 @@ double utils::random(const double& min, const double& max) {
 	return std::uniform_real_distribution<>{min, max}(rng);
 }
 
-std::tuple<nc::NdArray<double>, nc::NdArray<double>> utils::spiral_data(const size_t& points, const size_t& classes) 
+std::tuple<nc::NdArray<double>, nc::NdArray<int>> utils::spiral_data(const size_t& points, const size_t& classes) 
 {
 	nc::NdArray<double> X = nc::zeros<double>({ points * classes, 2 });
-	nc::NdArray<double> y = nc::zeros<double>({ points * classes, 1 });
+	nc::NdArray<int> y = nc::zeros<int>({ points * classes, 1 });
 
 	double r, t;
 	for (size_t i = 0; i < classes; i++) {
@@ -28,7 +28,7 @@ std::tuple<nc::NdArray<double>, nc::NdArray<double>> utils::spiral_data(const si
 	}
 
 
-	return std::make_tuple(X, y);
+	return std::make_tuple(X, y.flatten());
 }
 
 //Operator to Add a Vector to every row of a matrix

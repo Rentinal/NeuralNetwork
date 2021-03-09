@@ -147,10 +147,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\lossFunctions\categoricalLossEntropy.cpp" />
+    <ClCompile Include="src\activationFunctions\activationReLU.cpp" />
+    <ClCompile Include="src\activationFunctions\activationSoftmax.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\NumCpp\NumCpp.hpp" />
+    <ClInclude Include="src\activationFunctions\activationReLU.hpp" />
+    <ClInclude Include="src\activationFunctions\activationSoftmax.hpp" />
+    <ClInclude Include="src\lossFunctions\categoricalLossEntropy.hpp" />
+    <ClInclude Include="src\lossFunctions\loss.hpp" />
     <ClInclude Include="src\utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
