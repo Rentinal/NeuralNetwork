@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <math.h>
-#include "utils.hpp"
+#include "activationFunctions/activationSoftmax.hpp"
+#include "activationFunctions/activationReLU.hpp"
 
 //Euler's number calculated -> double precision
 static const double E = std::exp(1.0);
@@ -37,52 +38,7 @@ public:
 	}
 };
 
-//Activation Function that clips all negative Values to 0
-//non-normalized output
-class activationReLU {
-private:
-	nc::NdArray<double> m_output;
 
-public:
-	activationReLU() = default;
-	~activationReLU() = default;
-
-	void forward(const nc::NdArray<double>& inputs) {
-		m_output = nc::maximum(nc::zeros<double>(inputs.shape()), inputs);
-	}
-
-	const nc::NdArray<double>& output() const {
-		return m_output;
-	}
-};
-
-//Activation for the output Layer
-//Normalized output -> determines the output confidence of the network
-class activationSoftmax {
-private:
-	nc::NdArray<double> m_output;
-
-public:
-	activationSoftmax() = default;
-	~activationSoftmax() = default;
-
-	void forward(const nc::NdArray<double>& inputs) {
-		//Retrieve Maximum Value of Inputs
-		auto max = inputs.max().at(0,0);
-		//Subtract maximum Value from every Input ->
-		//Prevent exploding Values in Exponential Function
-		auto expValues = nc::exp(inputs - max);
-
-		//Sum over every Row
-		auto sum = nc::sum(expValues, nc::Axis::COL).transpose();
-		//Normalize every Input Row with its according Sum
-		m_output = utils::normalizeInputData(expValues, sum);
-	}
-
-	const nc::NdArray<double>& output() const {
-		return m_output;
-	}
-};
 
 int main()
 {
