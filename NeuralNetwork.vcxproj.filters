@@ -30,6 +30,9 @@
     <ClCompile Include="src\lossFunctions\categoricalLossEntropy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\lossFunctions\accuracy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils.hpp">
@@ -48,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\lossFunctions\categoricalLossEntropy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lossFunctions\accuracy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matplotlibcpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

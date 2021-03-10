@@ -72,19 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,6 +97,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Python38-32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>python39.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,6 +116,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Python38-32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>python39.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,6 +131,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Python38-32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>python39.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,9 +150,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Python38-32\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>python39.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\lossFunctions\accuracy.cpp" />
     <ClCompile Include="src\lossFunctions\categoricalLossEntropy.cpp" />
     <ClCompile Include="src\activationFunctions\activationReLU.cpp" />
     <ClCompile Include="src\activationFunctions\activationSoftmax.cpp" />
@@ -154,6 +163,8 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\matplotlibcpp.h" />
+    <ClInclude Include="src\lossFunctions\accuracy.hpp" />
     <ClInclude Include="include\NumCpp\NumCpp.hpp" />
     <ClInclude Include="src\activationFunctions\activationReLU.hpp" />
     <ClInclude Include="src\activationFunctions\activationSoftmax.hpp" />

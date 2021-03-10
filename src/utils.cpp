@@ -27,8 +27,28 @@ std::tuple<nc::NdArray<double>, nc::NdArray<size_t>> utils::spiral_data(const si
 		}
 	}
 
-
 	return std::make_tuple(X, y.flatten());
+}
+
+
+
+std::tuple<nc::NdArray<double>, nc::NdArray<size_t>> utils::vertical_data(const size_t& points, const size_t& classes) {
+	nc::NdArray<double> X = nc::zeros<double>({ points * classes, 2 });
+	nc::NdArray<size_t> y = nc::zeros<size_t>({ points * classes, 1 });
+
+	for (size_t i = 0; i < classes; i++)
+	{
+		nc::NdArray<size_t> values = nc::zeros<size_t>({ points, 1 });
+		std::iota(values.begin(), values.end(), i * points);
+		for (const auto& k : values) {
+			nc::NdArray<double> randomValue = nc::random::randN<double>({ 1,2 });
+			X.put(k, 0, randomValue.at(0, 0) * 0.1 + (classes / 3));
+			X.put(k, 1, randomValue.at(0, 1) * 0.1 + 0.5);
+			y.put(k, 0, i);
+		}
+	}
+
+	return std::make_tuple(X,y.flatten());
 }
 
 //Operator to Add a Vector to every row of a matrix
