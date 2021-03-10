@@ -4,6 +4,6 @@
 class categoricalCrossEntropy : public loss {
 public:
 	nc::NdArray<double> forward(
-		const nc::NdArray<double>& yPred, const nc::NdArray<int>& yTrue
+		const nc::NdArray<double>& yPred, const nc::NdArray<size_t>& yTrue
 	);
 };

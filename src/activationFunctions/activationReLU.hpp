@@ -10,7 +10,7 @@ public:
 	~activationReLU() = default;
 
 	//Activation Function that clips all negative Values to 0
-	void forward(const nc::NdArray<double>& inputs);
+	void forward(const nc::NdArray<double>&);
 
 	//non-normalized output
 	const nc::NdArray<double>& output() const;

@@ -1,6 +1,6 @@
 #include "categoricalLossEntropy.hpp"
 
-nc::NdArray<double> categoricalCrossEntropy::forward(const nc::NdArray<double>& yPred, const nc::NdArray<int>& yTrue)
+nc::NdArray<double> categoricalCrossEntropy::forward(const nc::NdArray<double>& yPred, const nc::NdArray<size_t>& yTrue)
 {
 	size_t numSamples = yPred.numRows();
 

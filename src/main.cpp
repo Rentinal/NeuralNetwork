@@ -6,6 +6,7 @@
 #include "activationFunctions/activationSoftmax.hpp"
 #include "activationFunctions/activationReLU.hpp"
 #include "lossFunctions/categoricalLossEntropy.hpp"
+#include "lossFunctions/accuracy.hpp"
 
 //Euler's number calculated -> double precision
 static const double E = std::exp(1.0);
@@ -73,7 +74,12 @@ int main()
 	categoricalCrossEntropy lossFunction;
 	//Average loss
 	std::cout << lossFunction.calculate(activation2.output(), y);
-	
+
+	//Calculate accuracy from output of the second activation function layer
+	accuracy accuracy;
+	accuracy.calculate(activation2.output(), y);
+	std::cout << accuracy.output();
 }
+
 
 
