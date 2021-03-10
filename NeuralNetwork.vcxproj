@@ -72,19 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;C:\Program Files\boost_1_75_0;C:\Program Files (x86)\Python38-32\include;C:\Users\mario\AppData\Roaming\Python\Python38\site-packages\numpy\core\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,6 +93,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,6 +113,9 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +133,9 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +153,9 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,16 +172,22 @@
     <ClCompile Include="src\activationFunctions\activationReLU.cpp" />
     <ClCompile Include="src\activationFunctions\activationSoftmax.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\nnfspch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\matplotlibcpp.h" />
     <ClInclude Include="src\lossFunctions\accuracy.hpp" />
     <ClInclude Include="include\NumCpp\NumCpp.hpp" />
     <ClInclude Include="src\activationFunctions\activationReLU.hpp" />
     <ClInclude Include="src\activationFunctions\activationSoftmax.hpp" />
     <ClInclude Include="src\lossFunctions\categoricalLossEntropy.hpp" />
     <ClInclude Include="src\lossFunctions\loss.hpp" />
+    <ClInclude Include="src\nnfspch.h" />
     <ClInclude Include="src\utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

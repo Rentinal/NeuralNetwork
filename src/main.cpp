@@ -1,8 +1,7 @@
 // main.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
-#include <iostream>
-#include <math.h>
+#include "nnfspch.h"
+#include "utils.hpp"
 #include "activationFunctions/activationSoftmax.hpp"
 #include "activationFunctions/activationReLU.hpp"
 #include "lossFunctions/categoricalLossEntropy.hpp"
@@ -141,6 +140,3 @@ int main()
 
 
 }
-
-
-

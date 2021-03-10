@@ -1,5 +1,4 @@
-#include <tuple>
-#include <random>
+#include "nnfspch.h"
 #include "utils.hpp"
 
 double utils::random(const double& min, const double& max) {

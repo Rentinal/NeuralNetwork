@@ -1,3 +1,4 @@
+#include "nnfspch.h"
 #include "activationSoftmax.hpp"
 
 void activationSoftmax::forward(const nc::NdArray<double>& inputs) {

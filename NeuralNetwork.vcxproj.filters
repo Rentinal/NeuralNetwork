@@ -33,6 +33,9 @@
     <ClCompile Include="src\lossFunctions\accuracy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\nnfspch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils.hpp">
@@ -56,7 +59,7 @@
     <ClInclude Include="src\lossFunctions\accuracy.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\matplotlibcpp.h">
+    <ClInclude Include="src\nnfspch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #pragma once
-#include <NumCpp/NumCpp.hpp>
+#include "nnfspch.h"
 
 namespace utils {
 	double random(const double&, const double&);

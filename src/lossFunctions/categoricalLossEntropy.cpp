@@ -1,3 +1,4 @@
+#include "nnfspch.h"
 #include "categoricalLossEntropy.hpp"
 
 nc::NdArray<double> categoricalCrossEntropy::forward(const nc::NdArray<double>& yPred, const nc::NdArray<size_t>& yTrue)
