@@ -7,136 +7,156 @@
 #include "lossFunctions/categoricalLossEntropy.hpp"
 #include "lossFunctions/accuracy.hpp"
 
-//Euler's number calculated -> double precision
-static const double E = std::exp(1.0);
 
-class denseLayer {
+class denseLayer
+{
 private:
-	nc::NdArray<double> m_weights;
-	nc::NdArray<double> m_biases;
-	nc::NdArray<double> m_outputs;
+  nc::NdArray<double> m_weights;
+  nc::NdArray<double> m_biases;
+  nc::NdArray<double> m_outputs;
 
 public:
-	denseLayer(const size_t& numInputs, const size_t& numNeurons) {
-		//Random values between -0.01 and 0.01
-		m_weights = 0.01 * nc::random::randN<double>({ numInputs, numNeurons });
-		m_biases = nc::zeros<double>({ 1, numNeurons });
-	}
+  denseLayer(const uint32_t &numInputs, const uint32_t &numNeurons)
+  {
+    constexpr double RANGE = 0.01;
+    //Random values between -0.01 and 0.01
+    m_weights = RANGE * nc::random::randN<double>({ numInputs, numNeurons });
+    m_biases = nc::zeros<double>({ 1, numNeurons });
+  }
 
-	~denseLayer() = default;
+  ~denseLayer() = default;
+  denseLayer(const denseLayer &) = default;
+  denseLayer &operator=(denseLayer const &) = default;
+  denseLayer(denseLayer &&) = default;
+  denseLayer &operator=(denseLayer &&) = default;
 
-	//sum(weights * input) + bias
-	void forward(const nc::NdArray<double>& inputs) {
-		m_outputs = utils::addVectorToEveryRow(inputs.dot(m_weights), m_biases);
-	}
+  //sum(weights * input) + bias
+  void forward(const nc::NdArray<double> &inputs)
+  {
+    m_outputs = utils::addVectorToEveryRow(inputs.dot(m_weights), m_biases);
+  }
 
-	const nc::NdArray<double>& weights() const {
-		return m_weights;
-	}
+  [[nodiscard]] const nc::NdArray<double> &weights() const
+  {
+    return m_weights;
+  }
 
-	const nc::NdArray<double>& biases() const {
-		return m_biases;
-	}
+  [[nodiscard]] const nc::NdArray<double> &biases() const
+  {
+    return m_biases;
+  }
 
-	void addToWeights(const nc::NdArray<double>& weights) {
-		m_weights += weights;
-	}
+  void addToWeights(const nc::NdArray<double> &weights)
+  {
+    m_weights += weights;
+  }
 
-	void addToBiases(const nc::NdArray<double>& biases) {
-		m_biases += biases;
-	}
+  void addToBiases(const nc::NdArray<double> &biases)
+  {
+    m_biases += biases;
+  }
 
-	void setWeights(const nc::NdArray<double>& weights) {
-		m_weights = weights;
-	}
+  void setWeights(const nc::NdArray<double> &weights)
+  {
+    m_weights = weights;
+  }
 
-	void setBiases(const nc::NdArray<double>& biases) {
-		m_biases = biases;
-	}
+  void setBiases(const nc::NdArray<double> &biases)
+  {
+    m_biases = biases;
+  }
 
-	const nc::NdArray<double>& output() const {
-		return m_outputs;
-	}
+  [[nodiscard]] const nc::NdArray<double> &output() const
+  {
+    return m_outputs;
+  }
 
-	void printOutput() const {
-		std::cout << "Outputs\n" << m_outputs << '\n';
-	}
+  void printOutput() const
+  {
+    std::cout << "Outputs\n"
+              << m_outputs << '\n';
+  }
 };
 
 int main()
 {
-	//Create random dataset
-	auto [X, y] = utils::vertical_data(100, 3);
+  try {
+    constexpr int32_t SAMPLE_AMOUNT = 100;
+    constexpr int32_t CLASS_COUNT = 3;
+    constexpr double LOWEST_LOST = 999999.0;
+    const nc::NdArray<double> Z = { { 0.19609152, 0.2706099 }, { -0.08493352, 0.59626206 }, { -0.31665033, 0.41865859 }, { -0.00281167, 0.47756092 }, { -0.00281167, 0.47756092 }, { -0.00281167, 0.47756092 }, { -0.01311485, 0.52054818 }, { 0.04684007, 0.46404129 }, { -0.02632755, 0.61669852 }, { 0.1610121, 0.2756311 }, { 0.00939703, 0.54066149 }, { 0.18520739, 0.577633 }, { 0.04877577, 0.50342336 }, { -0.0614463, 0.58990558 }, { 0.13477048, 0.44822741 }, { 0.22330533, 0.51146965 }, { 0.09483885, 0.34184554 }, { 0.10343698, 0.46929307 }, { 0.05780596, 0.53042686 }, { -0.10669233, 0.49351559 }, { 0.04668051, 0.59693169 }, { 0.04097596, 0.51328019 }, { -0.02684167, 0.56110597 }, { -0.08843209, 0.64048981 }, { -0.04323557, 0.57983385 }, { 0.24368345, 0.36861818 }, { 0.06634238, 0.453642 }, { -0.03589724, 0.43250726 }, { -0.14057948, 0.55856489 }, { 0.016928, 0.46948623 }, { -0.10792879, 0.49614202 }, { -0.0666273, 0.61830879 }, { -0.06834934, 0.48265371 }, { 0.01691102, 0.54964319 }, { 0.01696311, 0.57155627 }, { -0.06561787, 0.45411584 }, { -0.21418571, 0.33140885 }, { 0.12036369, 0.60904154 }, { -0.07862842, 0.45219074 }, { -0.10293584, 0.68012074 }, { 0.08260476, 0.62429265 }, { 0.06818977, 0.54807907 }, { 0.00581456, 0.41503249 }, { -0.03431729, 0.42565001 }, { -0.14658193, 0.42790609 }, { 0.03585709, 0.39125319 }, { -0.03736093, 0.48272721 }, { -0.05946638, 0.42180616 }, { 0.03714862, 0.29056871 }, { -0.11994547, 0.39179722 }, { 0.07742518, 0.62987574 }, { -0.06250114, 0.46028189 }, { 0.01585938, 0.47796654 }, { -0.04712089, 0.506315 }, { 0.03320536, 0.5783659 }, { -0.16319887, 0.61361772 }, { -0.06074411, 0.39778737 }, { 0.00460639, 0.40123961 }, { 0.00337327, 0.32045364 }, { 0.03330408, 0.57227139 }, { -0.17571176, 0.50059847 }, { 0.03773615, 0.17782058 }, { 0.05715724, 0.52182063 }, { -0.11887162, 0.46127936 }, { 0.05445734, 0.29784131 }, { -0.0686223, 0.44828056 }, { 0.26034587, 0.53209298 }, { -0.02078494, 0.48112864 }, { -0.12994035, 0.68436696 }, { 0.06927031, 0.5195017 }, { 0.16121193, 0.52031841 }, { 0.00924677, 0.41504962 }, { 0.15727553, 0.34811186 }, { -0.07819323, 0.57668553 }, { -0.02696788, 0.55035364 }, { -0.20201452, 0.40646615 }, { 0.24799857, 0.57153588 }, { -0.06839439, 0.49197696 }, { -0.09458113, 0.59053455 }, { 0.06080554, 0.6245806 }, { -0.08819973, 0.51620354 }, { -0.14602146, 0.29926981 }, { -0.02608782, 0.37970316 }, { -0.07375175, 0.45724657 }, { 0.14517741, 0.57326268 }, { -0.31447939, 0.61610647 }, { 0.09008648, 0.57515605 }, { 0.06146965, 0.4550026 }, { 0.00712698, 0.36684703 }, { -0.03868149, 0.58330424 }, { 0.01133867, 0.53173358 }, { 0.05882942, 0.43581418 }, { -0.0980855, 0.59484289 }, { -0.05905528, 0.42582899 }, { -0.10085828, 0.47623382 }, { -0.00322929, 0.62131966 }, { -0.02924666, 0.66518256 }, { 0.07466937, 0.39252525 }, { 0.11944295, 0.48166627 }, { -0.24206172, 0.56867963 }, { -0.00337424, 0.61093698 }, { 0.00244039, 0.55131214 }, { 0.39787197, 0.51242468 }, { 0.41237873, 0.50645369 }, { 0.24673709, 0.48224747 }, { 0.24451439, 0.55099668 }, { 0.25043442, 0.51756324 }, { 0.51689412, 0.50729287 }, { 0.46684632, 0.44157088 }, { 0.12095523, 0.48470142 }, { 0.2162149, 0.6498838 }, { 0.38608206, 0.63446425 }, { 0.3107443, 0.50976046 }, { 0.32789828, 0.31253437 }, { 0.27825452, 0.5019728 }, { 0.35628493, 0.49534867 }, { 0.23623774, 0.51075518 }, { 0.46735204, 0.23935061 }, { 0.4125843, 0.53106033 }, { 0.44879842, 0.44705144 }, { 0.30613579, 0.53873118 }, { 0.3212069, 0.62479955 }, { 0.49844166, 0.7003804 }, { 0.28640685, 0.59199069 }, { 0.4841904, 0.53315337 }, { 0.45633844, 0.43912755 }, { 0.48686389, 0.35760424 }, { 0.33993303, 0.40633287 }, { 0.31477831, 0.38092088 }, { 0.43552561, 0.61651518 }, { 0.51476569, 0.49524933 }, { 0.47209031, 0.66858759 }, { 0.31680301, 0.460293 }, { 0.37547871, 0.32016571 }, { 0.19177128, 0.63686901 }, { 0.37448496, 0.54275588 }, { 0.33456281, 0.63187046 }, { 0.16848928, 0.57223483 }, { 0.12298345, 0.29509299 }, { 0.29505352, 0.26466834 }, { 0.34821614, 0.4900622 }, { 0.38542681, 0.50139326 }, { 0.42236697, 0.53794738 }, { 0.32428628, 0.40718482 }, { 0.3391862, 0.625623 }, { 0.42879678, 0.36977051 }, { 0.4455782, 0.41098781 }, { 0.30544877, 0.61578829 }, { 0.42248388, 0.57267837 }, { 0.27118968, 0.30183603 }, { 0.29731803, 0.53508087 }, { 0.22861377, 0.63796115 }, { 0.07030859, 0.58396585 }, { 0.33084142, 0.26749413 }, { 0.40393974, 0.55842052 }, { 0.29193278, 0.5011716 }, { 0.42795695, 0.47091394 }, { 0.26002086, 0.69134401 }, { 0.2634729, 0.36669931 }, { 0.3926102, 0.43053256 }, { 0.39698002, 0.59764358 }, { 0.54869585, 0.60316649 }, { 0.28081245, 0.28761487 }, { 0.3885185, 0.5967209 }, { 0.25971558, 0.43921021 }, { 0.51404644, 0.47884335 }, { 0.28217013, 0.63871567 }, { 0.34744137, 0.64964536 }, { 0.35800131, 0.53782662 }, { 0.25357671, 0.61649138 }, { 0.30478621, 0.60533295 }, { 0.46260839, 0.50698469 }, { 0.4027598, 0.48907864 }, { 0.37191421, 0.46910991 }, { 0.37222508, 0.56974551 }, { 0.40483179, 0.53736127 }, { 0.4001344, 0.45061481 }, { 0.21706221, 0.52518564 }, { 0.36259204, 0.52431254 }, { 0.35401416, 0.54310472 }, { 0.42071001, 0.3822947 }, { 0.33869184, 0.45337016 }, { 0.25691346, 0.65429804 }, { 0.26653971, 0.45118598 }, { 0.30949984, 0.46585463 }, { 0.52438432, 0.43486774 }, { 0.24973654, 0.5104667 }, { 0.52628155, 0.23218958 }, { 0.30981631, 0.61404857 }, { 0.23057902, 0.51428785 }, { 0.4693369, 0.46478102 }, { 0.32578758, 0.24015517 }, { 0.28820024, 0.5159689 }, { 0.47458914, 0.52968748 }, { 0.17628691, 0.58556742 }, { 0.33144393, 0.57841187 }, { 0.36697668, 0.60347544 }, { 0.46727477, 0.46767202 }, { 0.29939578, 0.41544564 }, { 0.37550134, 0.39655873 }, { 0.27788958, 0.58122714 }, { 0.47144582, 0.3547434 }, { 0.64701764, 0.53670954 }, { 0.63224731, 0.39357098 }, { 0.72795566, 0.45335339 }, { 0.69213231, 0.35112093 }, { 0.45241064, 0.52526431 }, { 0.70241666, 0.3948726 }, { 0.67614679, 0.5573803 }, { 0.69438436, 0.75968703 }, { 0.65937489, 0.55771194 }, { 0.61194398, 0.48504649 }, { 0.64796598, 0.49261077 }, { 0.55301769, 0.45688155 }, { 0.47808776, 0.48085051 }, { 0.85739666, 0.40486269 }, { 0.70392413, 0.58087592 }, { 0.66387445, 0.6092325 }, { 0.76047991, 0.46074818 }, { 0.6521018, 0.60243604 }, { 0.91387865, 0.5470264 }, { 0.48828151, 0.37981757 }, { 0.71700757, 0.5203261 }, { 0.74044329, 0.52200415 }, { 0.63308351, 0.60546572 }, { 0.59308821, 0.69975616 }, { 0.71896724, 0.49854344 }, { 0.63619418, 0.67948138 }, { 0.72823801, 0.47499203 }, { 0.68661614, 0.55014797 }, { 0.66626487, 0.38443824 }, { 0.84437685, 0.56833079 }, { 0.61863152, 0.33767998 }, { 0.6836659, 0.44622546 }, { 0.67868014, 0.56220629 }, { 0.90042306, 0.43876057 }, { 0.62792621, 0.57848587 }, { 0.52736968, 0.5026136 }, { 0.46536769, 0.52665659 }, { 0.58336694, 0.43620482 }, { 0.78604534, 0.38186347 }, { 0.51671411, 0.5544266 }, { 0.72122065, 0.50911164 }, { 0.85685882, 0.67918382 }, { 0.76360882, 0.50560193 }, { 0.49321066, 0.31836218 }, { 0.7913676, 0.46679963 }, { 0.68045448, 0.23245475 }, { 0.68719925, 0.43151928 }, { 0.62984586, 0.55872607 }, { 0.59785444, 0.60414889 }, { 0.65965183, 0.59082989 }, { 0.77631425, 0.37795134 }, { 0.66290708, 0.59141075 }, { 0.53386622, 0.57058821 }, { 0.67976026, 0.55364638 }, { 0.61199391, 0.48447926 }, { 0.80738937, 0.44957982 }, { 0.7595846, 0.4987296 }, { 0.74266471, 0.76828978 }, { 0.80268707, 0.43252135 }, { 0.59876148, 0.43548096 }, { 0.68294233, 0.47834681 }, { 0.47429232, 0.62109451 }, { 0.74001722, 0.51365173 }, { 0.67637554, 0.48172511 }, { 0.54638892, 0.57126832 }, { 0.73012248, 0.55349536 }, { 0.63621945, 0.3584775 }, { 0.47732447, 0.55820634 }, { 0.77133402, 0.43698175 }, { 0.60500279, 0.34626568 }, { 0.73031946, 0.41211971 }, { 0.62754022, 0.56343234 }, { 0.68280799, 0.55505436 }, { 0.49548393, 0.34953112 }, { 0.45028607, 0.43497529 }, { 0.63628185, 0.41138804 }, { 0.69180177, 0.53622669 }, { 0.86005657, 0.47097404 }, { 0.79912548, 0.54465286 }, { 0.62846079, 0.48522116 }, { 0.63867469, 0.31524829 }, { 0.67641415, 0.43843896 }, { 0.59221188, 0.58153831 }, { 0.56506857, 0.57856467 }, { 0.75827092, 0.30290255 }, { 0.5969319, 0.51666776 }, { 0.69969481, 0.42452164 }, { 0.7768301, 0.57966552 }, { 0.77653661, 0.30571552 }, { 0.79381842, 0.61362818 }, { 0.45887965, 0.28638414 }, { 0.69689493, 0.49506033 }, { 0.53095129, 0.48292918 }, { 0.6222192, 0.3790832 }, { 0.60960668, 0.48160518 }, { 0.58028783, 0.5199218 }, { 0.68096674, 0.3557747 }, { 0.71857115, 0.43377169 } };
 
-		//First Dense Layer with 2 inputs and 3 Neurons(output values)
-	denseLayer dense1(2, 3);
+    //Create random dataset
+    auto [X, y] = utils::spiral_data(SAMPLE_AMOUNT, CLASS_COUNT);
 
-	//Create ReLU activation (used in hidden layers)
-	activationReLU activation1;
+    //First Dense Layer with 2 inputs and 3 Neurons(output values)
+    denseLayer dense1(2, 3);
 
-	//Create second Dense Layer with 3 inputs (Num outputs of first layer)
-	//and 3 outputs (Num of layers in dataset)
-	denseLayer dense2(3, 3);
+    //Create ReLU activation (used in hidden layers)
+    activationReLU activation1;
 
-	//Create Softmax Activation (used in output layer)
-	activationSoftmax activation2;
+    //Create second Dense Layer with 3 inputs (Num outputs of first layer)
+    //and 3 outputs (Num of layers in dataset)
+    denseLayer dense2(3, 3);
 
-	//Pass Output of second activation function through loss function
-	categoricalCrossEntropy lossFunction;
-	double lowestLoss = 9999999.0;
-	auto bestDense1Weights = dense1.weights().copy();
-	auto bestDense1Biases = dense1.biases().copy();
-	auto bestDense2Weights = dense2.weights().copy();
-	auto bestDense2Biases = dense2.biases().copy();
+    //Create Softmax Activation (used in output layer)
+    activationSoftmax activation2;
 
-	for (size_t i = 0; i < 10000; i++)
-	{
-		dense1.addToWeights(0.05 * nc::random::randN<double>({ 2,3 }));
-		dense1.addToBiases(0.05 * nc::random::randN<double>({ 1,3 }));
-		dense2.addToWeights(0.05 * nc::random::randN<double>({ 3,3 }));
-		dense2.addToBiases(0.05 * nc::random::randN<double>({ 1,3 }));
+    //Pass Output of second activation function through loss function
+    categoricalCrossEntropy lossFunction;
+    double lowestLoss = LOWEST_LOST;
+    auto bestDense1Weights = dense1.weights().copy();
+    auto bestDense1Biases = dense1.biases().copy();
+    auto bestDense2Weights = dense2.weights().copy();
+    auto bestDense2Biases = dense2.biases().copy();
 
-		//Pass Dataset through first layer
-		dense1.forward(utils::Z);
+    constexpr int32_t ITERATIONS = 10000;
+    constexpr double BIAS = 0.05;
 
-		//Pass Output of first layer through first activation function
-		activation1.forward(dense1.output());
+    for (int32_t i = 0; i < ITERATIONS; i++) {
+      dense1.addToWeights(BIAS * nc::random::randN<double>({ 2, 3 }));
+      dense1.addToBiases(BIAS * nc::random::randN<double>({ 1, 3 }));
+      dense2.addToWeights(BIAS * nc::random::randN<double>({ 3, 3 }));
+      dense2.addToBiases(BIAS * nc::random::randN<double>({ 1, 3 }));
 
-		//Pass Output of first activation function through second neuron layer
-		dense2.forward(activation1.output());
+      //Pass Dataset through first layer
+      dense1.forward(Z);
 
-		//Pass Output of second layer through second activation function
-		activation2.forward(dense2.output());
+      //Pass Output of first layer through first activation function
+      activation1.forward(dense1.output());
 
-		//Average loss
-		double loss = lossFunction.calculate(activation2.output(), y);
+      //Pass Output of first activation function through second neuron layer
+      dense2.forward(activation1.output());
 
-		//Calculate accuracy from output of the second activation function layer
-		accuracy accuracy;
-		accuracy.calculate(activation2.output(), y);
+      //Pass Output of second layer through second activation function
+      activation2.forward(dense2.output());
 
-		if (loss < lowestLoss) {
-			std::cout << "New Set of weights found, iteration: " << i << " loss: " << loss
-				<< " acc: " << accuracy.output() << '\n';
-			bestDense1Weights = dense1.weights().copy();
-			bestDense1Biases = dense1.biases().copy();
-			bestDense2Weights = dense2.weights().copy();
-			bestDense2Biases = dense2.biases().copy();
-			lowestLoss = loss;
-		}
-		else {
-			dense1.setWeights(bestDense1Weights.copy());
-			dense1.setBiases(bestDense1Biases.copy());
-			dense2.setWeights(bestDense2Weights.copy());
-			dense2.setBiases(bestDense2Biases.copy());
-		}
-		std::cout << "current Line: " << i << "\r";
-	}
+      //Average loss
+      double loss = lossFunction.calculate(activation2.output(), y);
+
+      //Calculate accuracy from output of the second activation function layer
+      accuracy accuracy;
+      accuracy.calculate(activation2.output(), y);
+
+      if (loss < lowestLoss) {
+        std::cout << "New Set of weights found, iteration: " << i << " loss: " << loss
+                  << " acc: " << accuracy.output() << '\n';
+        bestDense1Weights = dense1.weights().copy();
+        bestDense1Biases = dense1.biases().copy();
+        bestDense2Weights = dense2.weights().copy();
+        bestDense2Biases = dense2.biases().copy();
+        lowestLoss = loss;
+      } else {
+        dense1.setWeights(bestDense1Weights.copy());
+        dense1.setBiases(bestDense1Biases.copy());
+        dense2.setWeights(bestDense2Weights.copy());
+        dense2.setBiases(bestDense2Biases.copy());
+      }
+      std::cout << "current Line: " << i << "\r";
+    }
 
 
-
-
-
-
-
+  } catch (const std::exception &e) {
+    std::cerr << "Shouldn't really happen, to be honest: " << e.what();
+  }
 }

@@ -2,5 +2,5 @@
 #include <tuple>
 #include <random>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <NumCpp/NumCpp.hpp>
