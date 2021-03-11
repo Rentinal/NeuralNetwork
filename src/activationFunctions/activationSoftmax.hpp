@@ -1,10 +1,11 @@
 #pragma once
-#include "../utils.hpp"
+#include "./utils.hpp"
 
 class activationSoftmax
 {
 private:
-  nc::NdArray<double> m_output;
+  dMatrix m_output;
+  dMatrix m_dInput;
 
 public:
   activationSoftmax() = default;
@@ -15,8 +16,11 @@ public:
   activationSoftmax &operator=(activationSoftmax &&) = default;
 
   //Activation for the output Layer
-  void forward(const nc::NdArray<double> &);
+  void forward(const dMatrix &inputs);
+  void backward(const dMatrix &dValues);
 
   //Normalized output -> determines the output confidence of the network
-  [[nodiscard]] const nc::NdArray<double> &output() const;
+  [[nodiscard]] const dMatrix &output() const { return m_output; }
+  [[nodiscard]] const dMatrix &dInput() const { return m_dInput; }
+  void setOutput(const dMatrix &output) { m_output = output; };
 };

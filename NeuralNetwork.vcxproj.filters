@@ -39,6 +39,9 @@
     <ClCompile Include="src\denseLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\activationFunctions\activationSMLossCC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils.hpp">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\denseLayer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\activationFunctions\activationSMLossCC.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

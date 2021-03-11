@@ -1,15 +1,21 @@
 #pragma once
 #include "nnfspch.h"
 
+using dMatrix = nc::NdArray<double>;
+using iMatrix = nc::NdArray<int32_t>;
+using uiMatrix = nc::NdArray<uint32_t>;
+
 namespace utils {
 double random(double min, double max);
 
-std::tuple<nc::NdArray<double>, nc::NdArray<uint32_t>> spiral_data(int32_t points, int32_t classes);
+std::tuple<dMatrix, uiMatrix> spiral_data(int32_t points, int32_t classes);
 
-nc::NdArray<double> addVectorToEveryRow(const nc::NdArray<double> &m, const nc::NdArray<double> &row);
+dMatrix addVectorToEveryRow(const dMatrix &m, const dMatrix &row);
 
-nc::NdArray<double> divideRowByVector(const nc::NdArray<double> &m, const nc::NdArray<double> &row);
+dMatrix divideRowByVector(const dMatrix &m, const dMatrix &row);
 
-nc::NdArray<double> normalizeInputData(const nc::NdArray<double> &inputs, const nc::NdArray<double> &sum);
+dMatrix divideMatrices(const dMatrix &m1, const dMatrix &m2);
+
+dMatrix normalizeInputData(const dMatrix &inputs, const dMatrix &sum);
 
 }// namespace utils

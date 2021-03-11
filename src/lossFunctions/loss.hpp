@@ -1,4 +1,5 @@
 #pragma once
+#include "./utils.hpp"
 
 class loss
 {
@@ -10,9 +11,9 @@ public:
   loss(loss &&) = default;
   loss &operator=(loss &&) = default;
 
-  virtual nc::NdArray<double> forward(const nc::NdArray<double> &, const nc::NdArray<uint32_t> &) = 0;
+  virtual dMatrix forward(const dMatrix &, const uiMatrix &) = 0;
 
-  double calculate(const nc::NdArray<double> &output, const nc::NdArray<uint32_t> &y)
+  double calculate(const dMatrix &output, const uiMatrix &y)
   {
     //Calculates the average loss
     return nc::mean(this->forward(output, y)).at(0, 0);

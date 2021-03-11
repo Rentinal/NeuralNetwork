@@ -64,7 +64,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src; include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,7 +84,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>nnfspch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src; include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\activationFunctions\activationSMLossCC.cpp" />
     <ClCompile Include="src\denseLayer.cpp" />
     <ClCompile Include="src\lossFunctions\accuracy.cpp" />
     <ClCompile Include="src\lossFunctions\categoricalLossEntropy.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\activationFunctions\activationSMLossCC.hpp" />
     <ClInclude Include="src\denseLayer.hpp" />
     <ClInclude Include="src\lossFunctions\accuracy.hpp" />
     <ClInclude Include="include\NumCpp\NumCpp.hpp" />

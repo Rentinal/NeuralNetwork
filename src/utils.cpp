@@ -8,13 +8,13 @@ double utils::random(const double min, const double max)
   return std::uniform_real_distribution<>{ min, max }(rng);
 }
 
-std::tuple<nc::NdArray<double>, nc::NdArray<uint32_t>> utils::spiral_data(const int32_t points, const int32_t classes)
+std::tuple<dMatrix, uiMatrix> utils::spiral_data(const int32_t points, const int32_t classes)
 {
   constexpr double OFFSET = 0.15;
   constexpr double RANGE = 2.5;
 
-  nc::NdArray<double> X = nc::zeros<double>({ uint32_t(points * classes), 2 });
-  nc::NdArray<uint32_t> y = nc::zeros<uint32_t>({ uint32_t(points * classes), 1 });
+  dMatrix X = nc::zeros<double>({ uint32_t(points * classes), 2 });
+  uiMatrix y = nc::zeros<uint32_t>({ uint32_t(points * classes), 1 });
 
   double r = 0.0;
   double t = 0.0;
@@ -23,9 +23,9 @@ std::tuple<nc::NdArray<double>, nc::NdArray<uint32_t>> utils::spiral_data(const 
     for (int32_t j = 0; j < points; j++) {
       r = double(j) / double(points);
       t = i * 4 + (4 * r);
-      nc::NdArray<double> a{ r * cos(t * RANGE), r * sin(t * RANGE) };
-      nc::NdArray<double> b{ random(-OFFSET, OFFSET), random(-OFFSET, OFFSET) };
-      nc::NdArray<double> value = a + b;
+      dMatrix a{ r * cos(t * RANGE), r * sin(t * RANGE) };
+      dMatrix b{ random(-OFFSET, OFFSET), random(-OFFSET, OFFSET) };
+      dMatrix value = a + b;
       X.put(i * points + j, 0, value[0]);
       X.put(i * points + j, 1, value[1]);
       y.put(i * points + j, 0, uint32_t(i));
@@ -36,9 +36,9 @@ std::tuple<nc::NdArray<double>, nc::NdArray<uint32_t>> utils::spiral_data(const 
 }
 
 //Operator to Add a Vector to every row of a matrix
-nc::NdArray<double> utils::addVectorToEveryRow(const nc::NdArray<double> &m, const nc::NdArray<double> &row)
+dMatrix utils::addVectorToEveryRow(const dMatrix &m, const dMatrix &row)
 {
-  nc::NdArray<double> result(m.numRows(), m.numCols());
+  dMatrix result(m.numRows(), m.numCols());
 
   for (int32_t j = 0; j < int32_t(m.numRows()); j++) {
     for (int32_t i = 0; i < int32_t(m.numCols()); i++) {
@@ -49,9 +49,9 @@ nc::NdArray<double> utils::addVectorToEveryRow(const nc::NdArray<double> &m, con
 }
 
 //Operator to Add a Vector to every row of a matrix
-nc::NdArray<double> utils::divideRowByVector(const nc::NdArray<double> &m, const nc::NdArray<double> &row)
+dMatrix utils::divideRowByVector(const dMatrix &m, const dMatrix &row)
 {
-  nc::NdArray<double> result(m.numRows(), m.numCols());
+  dMatrix result(m.numRows(), m.numCols());
   for (int32_t j = 0; j < int32_t(m.numRows()); j++) {
     for (int32_t i = 0; i < int32_t(m.numCols()); i++) {
       result.put(j, i, m.at(j, i) / row[i]);
@@ -60,9 +60,19 @@ nc::NdArray<double> utils::divideRowByVector(const nc::NdArray<double> &m, const
   return result;
 }
 
-nc::NdArray<double> utils::normalizeInputData(const nc::NdArray<double> &inputs, const nc::NdArray<double> &sum)
+
+dMatrix utils::divideMatrices(const dMatrix &m1, const dMatrix &m2)
 {
-  nc::NdArray<double> result(inputs.shape());
+  dMatrix result(m1.shape());
+  std::transform(m1.begin(), m1.end(), m2.begin(), result.begin(), [](double val1, double val2) {
+    return val1 / val2;
+  });
+  return result;
+}
+
+dMatrix utils::normalizeInputData(const dMatrix &inputs, const dMatrix &sum)
+{
+  dMatrix result(inputs.shape());
 
   for (int32_t i = 0; i < int32_t(result.numRows()); i++) {
     for (int32_t j = 0; j < int32_t(result.numCols()); j++) {

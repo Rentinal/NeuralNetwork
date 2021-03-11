@@ -3,6 +3,9 @@
 
 class categoricalCrossEntropy : public loss
 {
+private:
+  dMatrix m_dInput;
+
 public:
   categoricalCrossEntropy() = default;
   ~categoricalCrossEntropy() override = default;
@@ -11,5 +14,8 @@ public:
   categoricalCrossEntropy(categoricalCrossEntropy &&) = default;
   categoricalCrossEntropy &operator=(categoricalCrossEntropy &&) = default;
 
-  nc::NdArray<double> forward(const nc::NdArray<double> &yPred, const nc::NdArray<uint32_t> &yTrue) override;
+  dMatrix forward(const dMatrix &yPred, const uiMatrix &yTrue) override;
+  void backward(const dMatrix &dValues, const uiMatrix &yTrue);
+
+  const dMatrix &dInput() const { return m_dInput; }
 };

@@ -9,42 +9,44 @@ denseLayer::denseLayer(const uint32_t numInputs, const uint32_t numNeurons)
   m_biases = nc::zeros<double>({ 1, numNeurons });
 }
 
-void denseLayer::forward(const nc::NdArray<double> &inputs)
+denseLayer::denseLayer(const dMatrix &weights, const dMatrix &biases)
 {
-  m_outputs = utils::addVectorToEveryRow(inputs.dot(m_weights), m_biases);
+  m_weights = weights.copy();
+  m_biases = biases.copy();
 }
 
-const nc::NdArray<double> &denseLayer::weights() const
+void denseLayer::forward(const dMatrix &inputs)
 {
-  return m_weights;
+  m_inputs = inputs;
+  m_outputs = utils::addVectorToEveryRow(m_inputs.dot(m_weights), m_biases);
 }
 
-const nc::NdArray<double> &denseLayer::biases() const
+void denseLayer::backward(const dMatrix &dValues)
 {
-  return m_biases;
+  //Gradient on Parameters
+  m_dWeights = m_inputs.transpose().dot(dValues);
+  m_dBiases = nc::sum(dValues, nc::Axis::ROW);
+  //Gradient on Values
+  m_dInputs = dValues.dot(m_weights.transpose());
 }
 
-void denseLayer::addToWeights(const nc::NdArray<double> &weights)
+
+void denseLayer::addToWeights(const dMatrix &weights)
 {
   m_weights += weights;
 }
 
-void denseLayer::addToBiases(const nc::NdArray<double> &biases)
+void denseLayer::addToBiases(const dMatrix &biases)
 {
   m_biases += biases;
 }
 
-void denseLayer::setWeights(const nc::NdArray<double> &weights)
+void denseLayer::setWeights(const dMatrix &weights)
 {
   m_weights = weights;
 }
 
-void denseLayer::setBiases(const nc::NdArray<double> &biases)
+void denseLayer::setBiases(const dMatrix &biases)
 {
   m_biases = biases;
-}
-
-const nc::NdArray<double> &denseLayer::output() const
-{
-  return m_outputs;
 }
