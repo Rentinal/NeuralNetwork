@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\denseLayer.cpp" />
     <ClCompile Include="src\lossFunctions\accuracy.cpp" />
     <ClCompile Include="src\lossFunctions\categoricalLossEntropy.cpp" />
     <ClCompile Include="src\activationFunctions\activationReLU.cpp" />
@@ -108,6 +109,7 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\denseLayer.hpp" />
     <ClInclude Include="src\lossFunctions\accuracy.hpp" />
     <ClInclude Include="include\NumCpp\NumCpp.hpp" />
     <ClInclude Include="src\activationFunctions\activationReLU.hpp" />
