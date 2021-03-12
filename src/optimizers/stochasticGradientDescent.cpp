@@ -2,25 +2,34 @@
 #include "stochasticGradientDescent.hpp"
 #include "denseLayer.hpp"
 
-stochasticGradientDescent::stochasticGradientDescent(const double learningRate, const double decay)
-  : m_learningRate(learningRate), m_currLearningRate(m_learningRate), m_decay(decay)
+stochasticGradientDescent::stochasticGradientDescent(const double learningRate, const double decay, const double momentum)
+  : optimizer(learningRate, decay), m_momentum(momentum)
 {
-}
-
-void stochasticGradientDescent::preUpdateParams()
-{
-  if (m_decay > 0.0) {
-    m_currLearningRate = m_learningRate * (1.0 / (1.0 + m_decay * static_cast<double>(m_iterations)));
-  }
 }
 
 void stochasticGradientDescent::updateParams(denseLayer &layer) const
 {
-  layer.addToWeights(-m_currLearningRate * layer.dWeights());
-  layer.addToBiases(-m_currLearningRate * layer.dBiases());
-}
+  dMatrix weightUpdates;
+  dMatrix biasUpdates;
+  //With momentum
+  if (m_momentum > 0.0) {
+    //Weight updates with momentum
+    //previous update multiplied by retain factor and update it with current gradients
+    weightUpdates = m_momentum * layer.weightMomentums()
+                    - getCurrentLearningRate() * layer.dWeights();
+    layer.setWeightMomentums(weightUpdates);
 
-void stochasticGradientDescent::postUpdateParams()
-{
-  m_iterations++;
+    biasUpdates = m_momentum * layer.biasMomentums()
+                  - getCurrentLearningRate() * layer.dBiases();
+    layer.setBiasMomentums(biasUpdates);
+    //Vanilla SGD update
+  } else {
+    weightUpdates = -getCurrentLearningRate() * layer.dWeights();
+
+    biasUpdates = -getCurrentLearningRate() * layer.dBiases();
+  }
+
+  //Either Add vanilla oder momentum updates
+  layer.addToBiases(biasUpdates);
+  layer.addToWeights(weightUpdates);
 }

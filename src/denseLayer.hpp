@@ -13,6 +13,12 @@ private:
   dMatrix m_dWeights;
   dMatrix m_dBiases;
   dMatrix m_dInputs;
+  //Optimization SGD
+  dMatrix m_weightMomentums;
+  dMatrix m_biasMomentums;
+  //Optimization AdaGrad
+  dMatrix m_weightCache;
+  dMatrix m_biasCache;
 
 public:
   denseLayer(uint32_t numInputs, uint32_t numNeurons);
@@ -32,9 +38,17 @@ public:
 
   void addToBiases(const dMatrix &biases);
 
+  void addToWeightCache(const dMatrix &weights);
+
+  void addToBiasCache(const dMatrix &biases);
+
   void setWeights(const dMatrix &weights);
 
   void setBiases(const dMatrix &biases);
+
+  void setWeightMomentums(const dMatrix &weights);
+
+  void setBiasMomentums(const dMatrix &biases);
 
   [[nodiscard]] const dMatrix &output() const { return m_outputs; }
   [[nodiscard]] const dMatrix &weights() const { return m_weights; }
@@ -43,4 +57,10 @@ public:
   [[nodiscard]] const dMatrix &dInput() const { return m_dInputs; }
   [[nodiscard]] const dMatrix &dWeights() const { return m_dWeights; }
   [[nodiscard]] const dMatrix &dBiases() const { return m_dBiases; }
+
+  [[nodiscard]] const dMatrix &weightMomentums() const { return m_weightMomentums; }
+  [[nodiscard]] const dMatrix &biasMomentums() const { return m_biasMomentums; }
+
+  [[nodiscard]] const dMatrix &weightCache() const { return m_weightCache; }
+  [[nodiscard]] const dMatrix &biasCache() const { return m_biasCache; }
 };

@@ -7,12 +7,22 @@ denseLayer::denseLayer(const uint32_t numInputs, const uint32_t numNeurons)
   //Random values between -0.01 and 0.01
   m_weights = RANGE * nc::random::randN<double>({ numInputs, numNeurons });
   m_biases = nc::zeros<double>({ 1, numNeurons });
+
+  m_weightMomentums = nc::zeros_like<double>(m_weights);
+  m_biasMomentums = nc::zeros_like<double>(m_biases);
+  m_weightCache = nc::zeros_like<double>(m_weights);
+  m_biasCache = nc::zeros_like<double>(m_biases);
 }
 
 denseLayer::denseLayer(const dMatrix &weights, const dMatrix &biases)
 {
   m_weights = weights.copy();
   m_biases = biases.copy();
+
+  m_weightMomentums = nc::zeros_like<double>(m_weights);
+  m_biasMomentums = nc::zeros_like<double>(m_biases);
+  m_weightCache = nc::zeros_like<double>(m_weights);
+  m_biasCache = nc::zeros_like<double>(m_biases);
 }
 
 void denseLayer::forward(const dMatrix &inputs)
@@ -41,6 +51,16 @@ void denseLayer::addToBiases(const dMatrix &biases)
   m_biases += biases;
 }
 
+void denseLayer::addToWeightCache(const dMatrix &weights)
+{
+  m_weightCache += weights;
+}
+
+void denseLayer::addToBiasCache(const dMatrix &biases)
+{
+  m_biasCache += biases;
+}
+
 void denseLayer::setWeights(const dMatrix &weights)
 {
   m_weights = weights;
@@ -49,4 +69,14 @@ void denseLayer::setWeights(const dMatrix &weights)
 void denseLayer::setBiases(const dMatrix &biases)
 {
   m_biases = biases;
+}
+
+void denseLayer::setWeightMomentums(const dMatrix &weights)
+{
+  m_weightMomentums = weights;
+}
+
+void denseLayer::setBiasMomentums(const dMatrix &biases)
+{
+  m_biasMomentums = biases;
 }
