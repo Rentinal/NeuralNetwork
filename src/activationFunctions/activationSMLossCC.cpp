@@ -17,12 +17,13 @@ double activationSMLossCC::forward(const dMatrix &inputs, const uiMatrix &yTrue)
   //Calculate and return loss
   return m_loss.calculate(m_output, yTrue);
 }
+
 void activationSMLossCC::backward(const dMatrix &dValues, const uiMatrix &yTrue)
 {
-  uint32_t numSamples = dValues.numRows();
+  uint32_t numSamples = nc::alen(dValues);
   uiMatrix indices = yTrue.copy();
 
-  if (indices.numRows() > 2) {
+  if (indices.numRows() > 1) {
     indices = nc::argmax(indices, nc::Axis::COL);
   }
 

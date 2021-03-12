@@ -80,3 +80,13 @@ void denseLayer::setBiasMomentums(const dMatrix &biases)
 {
   m_biasMomentums = biases;
 }
+
+void denseLayer::setWeightCache(const dMatrix &weights)
+{
+  m_weightCache = weights;
+}
+
+void denseLayer::setBiasCache(const dMatrix &biases)
+{
+  m_biasCache = biases;
+}

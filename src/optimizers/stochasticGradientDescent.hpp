@@ -1,5 +1,5 @@
 #pragma once
-#include "optimizer.h"
+#include "optimizer.hpp"
 
 class stochasticGradientDescent : public optimizer
 {

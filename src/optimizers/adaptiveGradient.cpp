@@ -13,8 +13,8 @@ void adaptiveGradient::updateParams(denseLayer &layer) const
   dMatrix biases = layer.dBiases();
 
   //Update Cache with squared Gradient
-  layer.addToWeightCache(weights * weights);
-  layer.addToBiasCache(biases * biases);
+  layer.addToWeightCache(nc::square(weights));
+  layer.addToBiasCache(nc::square(biases));
 
   //Vanilla SGD + normalization with square rooted cache
   layer.addToWeights(-getCurrentLearningRate() * weights / (nc::sqrt(layer.weightCache()) + m_epsilon));

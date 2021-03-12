@@ -48,6 +48,12 @@
     <ClCompile Include="src\optimizers\adaptiveGradient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\optimizers\rootMeanSquareProp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\optimizers\adaptiveMomentum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils.hpp">
@@ -86,7 +92,13 @@
     <ClInclude Include="src\optimizers\adaptiveGradient.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\optimizers\optimizer.h">
+    <ClInclude Include="src\optimizers\optimizer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\optimizers\rootMeanSquareProp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\optimizers\adaptiveMomentum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

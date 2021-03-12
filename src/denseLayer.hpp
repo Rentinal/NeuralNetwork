@@ -50,6 +50,10 @@ public:
 
   void setBiasMomentums(const dMatrix &biases);
 
+  void setWeightCache(const dMatrix &weights);
+
+  void setBiasCache(const dMatrix &biases);
+
   [[nodiscard]] const dMatrix &output() const { return m_outputs; }
   [[nodiscard]] const dMatrix &weights() const { return m_weights; }
   [[nodiscard]] const dMatrix &biases() const { return m_biases; }

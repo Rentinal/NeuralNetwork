@@ -98,6 +98,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\optimizers\adaptiveMomentum.cpp" />
+    <ClCompile Include="src\optimizers\rootMeanSquareProp.cpp" />
     <ClCompile Include="src\optimizers\adaptiveGradient.cpp" />
     <ClCompile Include="src\activationFunctions\activationSMLossCC.cpp" />
     <ClCompile Include="src\denseLayer.cpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="src\optimizers\stochasticGradientDescent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\optimizers\adaptiveMomentum.hpp" />
+    <ClInclude Include="src\optimizers\rootMeanSquareProp.hpp" />
     <ClInclude Include="src\optimizers\adaptiveGradient.hpp" />
     <ClInclude Include="src\activationFunctions\activationSMLossCC.hpp" />
     <ClInclude Include="src\denseLayer.hpp" />
@@ -124,7 +128,7 @@
     <ClInclude Include="src\lossFunctions\categoricalLossEntropy.hpp" />
     <ClInclude Include="src\lossFunctions\loss.hpp" />
     <ClInclude Include="src\nnfspch.h" />
-    <ClInclude Include="src\optimizers\optimizer.h" />
+    <ClInclude Include="src\optimizers\optimizer.hpp" />
     <ClInclude Include="src\utils.hpp" />
     <ClInclude Include="src\optimizers\stochasticGradientDescent.hpp" />
   </ItemGroup>

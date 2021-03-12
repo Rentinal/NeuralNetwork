@@ -5,12 +5,11 @@
 dMatrix categoricalCrossEntropy::forward(const dMatrix &yPred, const uiMatrix &yTrue)
 {
   constexpr double MIN = 1e-7;
-  constexpr double MAX = 1e+7;
   uint32_t numSamples = yPred.numRows();
 
   //Clip data to prevent division by 0
   //Clip both sides to keep its integrity
-  dMatrix yPredClipped = nc::clip(yPred, MIN, MAX);
+  dMatrix yPredClipped = nc::clip(yPred, MIN, 1 - MIN);
 
   dMatrix confidences = nc::zeros<double>({ 1, numSamples });
 
@@ -37,7 +36,7 @@ dMatrix categoricalCrossEntropy::forward(const dMatrix &yPred, const uiMatrix &y
 
 void categoricalCrossEntropy::backward(const dMatrix &dValues, const uiMatrix &yTrue)
 {
-  uint32_t numSamples = dValues.numRows();
+  uint32_t numSamples = nc::alen(dValues);
   uint32_t numLables = dValues.numCols();
 
   dMatrix indices = nc::zeros<double>({ numLables, numLables });

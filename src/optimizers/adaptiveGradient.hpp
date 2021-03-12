@@ -1,5 +1,5 @@
 #pragma once
-#include "optimizers/optimizer.h"
+#include "optimizer.hpp"
 
 class adaptiveGradient : public optimizer
 {

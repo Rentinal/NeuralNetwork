@@ -17,6 +17,7 @@ protected:
   [[nodiscard]] double getLearningRate() const { return m_learningRate; }
   [[nodiscard]] double getCurrentLearningRate() const { return m_currLearningRate; }
   [[nodiscard]] double getDecay() const { return m_decay; }
+  [[nodiscard]] size_t getIterations() const { return m_iterations; }
 
 public:
   explicit optimizer(const double learningRate = 1.0, const double decay = 1e-3)

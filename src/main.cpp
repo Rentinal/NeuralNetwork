@@ -8,6 +8,8 @@
 #include "lossFunctions/accuracy.hpp"
 #include "optimizers/stochasticGradientDescent.hpp"
 #include "optimizers/adaptiveGradient.hpp"
+#include "optimizers/rootMeanSquareProp.hpp"
+#include "optimizers/adaptiveMomentum.hpp"
 
 
 int main()
@@ -29,7 +31,9 @@ int main()
   activationSMLossCC lossActivation;
 
   //stochasticGradientDescent optimizer(1.0, 1e-3, 0.9);
-  adaptiveGradient optimizer(1.0, 1e-3, 1e-5);
+  //adaptiveGradient optimizer(1.0, 1e-3, 1e-5);
+  //rootMeanSquareProp optimizer(0.02, 1e-5, 1e-7, 0.999);
+  adaptiveMomentum optimizer(0.05, 5e-7);
 
   for (size_t i = 0; i < 10001; i++) {
     dense1.forward(B);
