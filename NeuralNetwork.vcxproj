@@ -108,6 +108,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\optimizers\stochasticGradientDescent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\activationFunctions\activationSMLossCC.hpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="src\lossFunctions\loss.hpp" />
     <ClInclude Include="src\nnfspch.h" />
     <ClInclude Include="src\utils.hpp" />
+    <ClInclude Include="src\optimizers\stochasticGradientDescent.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

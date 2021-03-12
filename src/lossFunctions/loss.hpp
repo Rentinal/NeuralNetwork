@@ -3,6 +3,9 @@
 
 class loss
 {
+protected:
+  dMatrix m_dInput;
+
 public:
   loss() = default;
   virtual ~loss() = default;

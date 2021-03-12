@@ -3,9 +3,6 @@
 
 class categoricalCrossEntropy : public loss
 {
-private:
-  dMatrix m_dInput;
-
 public:
   categoricalCrossEntropy() = default;
   ~categoricalCrossEntropy() override = default;

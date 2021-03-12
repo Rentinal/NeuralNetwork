@@ -6,6 +6,7 @@
 #include "activationFunctions/activationSMLossCC.hpp"
 #include "lossFunctions/categoricalLossEntropy.hpp"
 #include "lossFunctions/accuracy.hpp"
+#include "optimizers/stochasticGradientDescent.hpp"
 
 
 int main()
@@ -17,36 +18,41 @@ int main()
 
   auto [X, y] = utils::spiral_data(SAMPLE_AMOUNT, CLASS_COUNT);
 
-  denseLayer dense1(2, 3);
+  denseLayer dense1(2, 64);
 
   activationReLU act1;
 
-  denseLayer dense2(3, 3);
+  denseLayer dense2(64, 3);
 
   activationSMLossCC lossActivation;
 
-  dense1.forward(X);
+  stochasticGradientDescent optimizerSGD;
 
-  act1.forward(dense1.output());
+  for (size_t i = 0; i < 50001; i++) {
+    dense1.forward(X);
 
-  dense2.forward(act1.output());
+    act1.forward(dense1.output());
 
-  double loss = lossActivation.forward(dense2.output(), y);
+    dense2.forward(act1.output());
 
-  std::cout << "Loss: " << loss << '\n';
+    double loss = lossActivation.forward(dense2.output(), y);
 
-  accuracy accuracy;
-  accuracy.calculate(lossActivation.output(), y);
+    accuracy accuracy;
+    accuracy.calculate(lossActivation.output(), y);
 
-  std::cout << "acc: " << accuracy.output() << '\n';
+    if (!(i % 100)) {
+      std::cout << "Epoch: " << i << ", ";
+      std::cout << "Acc: " << accuracy.output() << ", ";
+      std::cout << "Loss: " << loss << '\n';
+    }
 
-  lossActivation.backward(lossActivation.output(), y);
-  dense2.backward(lossActivation.dInput());
-  act1.backward(dense2.dInput());
-  dense1.backward(act1.dInput());
+    lossActivation.backward(lossActivation.output(), y);
+    dense2.backward(lossActivation.dInput());
+    act1.backward(dense2.dInput());
+    dense1.backward(act1.dInput());
 
-  std::cout << dense1.dWeights();
-  std::cout << dense1.dBiases();
-  std::cout << dense2.dWeights();
-  std::cout << dense2.dBiases();
+
+    optimizerSGD.updateParams(dense1);
+    optimizerSGD.updateParams(dense2);
+  }
 }
