@@ -26,9 +26,9 @@ int main()
 
   activationSMLossCC lossActivation;
 
-  stochasticGradientDescent optimizerSGD;
+  stochasticGradientDescent optimizerSGD(1.0, 0.001);
 
-  for (size_t i = 0; i < 50001; i++) {
+  for (size_t i = 0; i < 10001; i++) {
     dense1.forward(X);
 
     act1.forward(dense1.output());
@@ -36,14 +36,14 @@ int main()
     dense2.forward(act1.output());
 
     double loss = lossActivation.forward(dense2.output(), y);
-
     accuracy accuracy;
     accuracy.calculate(lossActivation.output(), y);
 
     if (!(i % 100)) {
       std::cout << "Epoch: " << i << ", ";
       std::cout << "Acc: " << accuracy.output() << ", ";
-      std::cout << "Loss: " << loss << '\n';
+      std::cout << "Loss: " << loss << ", ";
+      std::cout << "LR: " << optimizerSGD.currentLearningRate() << '\n';
     }
 
     lossActivation.backward(lossActivation.output(), y);
@@ -51,8 +51,9 @@ int main()
     act1.backward(dense2.dInput());
     dense1.backward(act1.dInput());
 
-
+    optimizerSGD.preUpdateParams();
     optimizerSGD.updateParams(dense1);
     optimizerSGD.updateParams(dense2);
+    optimizerSGD.postUpdateParams();
   }
 }

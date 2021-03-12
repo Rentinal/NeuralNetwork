@@ -5,14 +5,21 @@ class stochasticGradientDescent
 {
 private:
   double m_learningRate;
+  double m_currLearningRate;
+  double m_decay;
+  size_t m_iterations{ 0 };
 
 public:
-  stochasticGradientDescent(const double learningRate = 1.0);
+  explicit stochasticGradientDescent(double learningRate = 1.0, double decay = 0.0);
   ~stochasticGradientDescent() = default;
   stochasticGradientDescent(const stochasticGradientDescent &) = default;
   stochasticGradientDescent &operator=(stochasticGradientDescent const &) = default;
   stochasticGradientDescent(stochasticGradientDescent &&) = default;
   stochasticGradientDescent &operator=(stochasticGradientDescent &&) = default;
 
-  void updateParams(denseLayer &layer);
+  void preUpdateParams();
+  void updateParams(denseLayer &layer) const;
+  void postUpdateParams();
+
+  double currentLearningRate() const { return m_currLearningRate; }
 };

@@ -2,13 +2,25 @@
 #include "stochasticGradientDescent.hpp"
 #include "denseLayer.hpp"
 
-stochasticGradientDescent::stochasticGradientDescent(const double learningRate)
+stochasticGradientDescent::stochasticGradientDescent(const double learningRate, const double decay)
+  : m_learningRate(learningRate), m_currLearningRate(m_learningRate), m_decay(decay)
 {
-  m_learningRate = learningRate;
 }
 
-void stochasticGradientDescent::updateParams(denseLayer &layer)
+void stochasticGradientDescent::preUpdateParams()
 {
-  layer.addToWeights(-1.0 * m_learningRate * layer.dWeights());
-  layer.addToBiases(-1.0 * m_learningRate * layer.dBiases());
+  if (m_decay > 0.0) {
+    m_currLearningRate = m_learningRate * (1.0 / (1.0 + m_decay * static_cast<double>(m_iterations)));
+  }
+}
+
+void stochasticGradientDescent::updateParams(denseLayer &layer) const
+{
+  layer.addToWeights(-m_currLearningRate * layer.dWeights());
+  layer.addToBiases(-m_currLearningRate * layer.dBiases());
+}
+
+void stochasticGradientDescent::postUpdateParams()
+{
+  m_iterations++;
 }
