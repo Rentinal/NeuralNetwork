@@ -13,8 +13,8 @@ std::tuple<dMatrix, uiMatrix> utils::spiral_data(const int32_t points, const int
   constexpr double OFFSET = 0.15;
   constexpr double RANGE = 2.5;
 
-  dMatrix X = nc::zeros<double>({ uint32_t(points * classes), 2 });
-  uiMatrix y = nc::zeros<uint32_t>({ uint32_t(points * classes), 1 });
+  dMatrix X = nc::zeros<double>({ static_cast<uint32_t>(points * classes), 2 });
+  uiMatrix y = nc::zeros<uint32_t>({ static_cast<uint32_t>(points * classes), 1 });
 
   double r = 0.0;
   double t = 0.0;
@@ -28,7 +28,7 @@ std::tuple<dMatrix, uiMatrix> utils::spiral_data(const int32_t points, const int
       dMatrix value = a + b;
       X.put(i * points + j, 0, value[0]);
       X.put(i * points + j, 1, value[1]);
-      y.put(i * points + j, 0, uint32_t(i));
+      y.put(i * points + j, 0, static_cast<uint32_t>(i));
     }
   }
 
@@ -40,8 +40,8 @@ dMatrix utils::addVectorToEveryRow(const dMatrix &m, const dMatrix &row)
 {
   dMatrix result(m.numRows(), m.numCols());
 
-  for (int32_t j = 0; j < int32_t(m.numRows()); j++) {
-    for (int32_t i = 0; i < int32_t(m.numCols()); i++) {
+  for (int32_t j = 0; j < static_cast<int32_t>(m.numRows()); j++) {
+    for (int32_t i = 0; i < static_cast<int32_t>(m.numCols()); i++) {
       result.put(j, i, m.at(j, i) + row[i]);
     }
   }
@@ -52,8 +52,8 @@ dMatrix utils::addVectorToEveryRow(const dMatrix &m, const dMatrix &row)
 dMatrix utils::divideRowByVector(const dMatrix &m, const dMatrix &row)
 {
   dMatrix result(m.numRows(), m.numCols());
-  for (int32_t j = 0; j < int32_t(m.numRows()); j++) {
-    for (int32_t i = 0; i < int32_t(m.numCols()); i++) {
+  for (int32_t j = 0; j < static_cast<int32_t>(m.numRows()); j++) {
+    for (int32_t i = 0; i < static_cast<int32_t>(m.numCols()); i++) {
       result.put(j, i, m.at(j, i) / row[i]);
     }
   }
@@ -74,8 +74,8 @@ dMatrix utils::normalizeInputData(const dMatrix &inputs, const dMatrix &sum)
 {
   dMatrix result(inputs.shape());
 
-  for (int32_t i = 0; i < int32_t(result.numRows()); i++) {
-    for (int32_t j = 0; j < int32_t(result.numCols()); j++) {
+  for (int32_t i = 0; i < static_cast<int32_t>(result.numRows()); i++) {
+    for (int32_t j = 0; j < static_cast<int32_t>(result.numCols()); j++) {
       result.put(i, j, inputs.at(i, j) / sum.at(i, 0));
     }
   }

@@ -15,7 +15,7 @@ public:
   accuracy(accuracy &&) = default;
   accuracy &operator=(accuracy &&) = default;
 
-  void calculate(const dMatrix &, const uiMatrix &);
+  void calculate(const dMatrix &output, const uiMatrix &targets);
   [[nodiscard]] double output() const { return m_accuracy; }
   [[nodiscard]] const uiMatrix &prediction() const { return m_predictions; }
 };

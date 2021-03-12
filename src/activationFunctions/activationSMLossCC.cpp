@@ -28,12 +28,12 @@ void activationSMLossCC::backward(const dMatrix &dValues, const uiMatrix &yTrue)
 
   m_dInput = dValues.copy();
   //Calculate Gradient
-  for (int32_t i = 0; i < int32_t(m_dInput.numRows()); i++) {
-    m_dInput.at(i, int32_t(yTrue.at(0, i)))--;
+  for (int32_t i = 0; i < static_cast<int32_t>(m_dInput.numRows()); i++) {
+    m_dInput.at(i, static_cast<int32_t>(yTrue.at(0, i)))--;
   }
 
   //Normalize Gradient
-  std::transform(m_dInput.begin(), m_dInput.end(), m_dInput.begin(), [&numSamples](const double &val1) {
+  std::transform(m_dInput.begin(), m_dInput.end(), m_dInput.begin(), [&numSamples](double val1) {
     return val1 / numSamples;
   });
 }

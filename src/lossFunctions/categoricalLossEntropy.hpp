@@ -17,5 +17,5 @@ public:
   dMatrix forward(const dMatrix &yPred, const uiMatrix &yTrue) override;
   void backward(const dMatrix &dValues, const uiMatrix &yTrue);
 
-  const dMatrix &dInput() const { return m_dInput; }
+  [[nodiscard]] const dMatrix &dInput() const { return m_dInput; }
 };
